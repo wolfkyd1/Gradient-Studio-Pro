@@ -198,6 +198,18 @@
             justify-content: center;
         }
 
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border);
+        }
+
         /* ============================================
            NAVIGATION TABS WITH ENHANCED STYLING
            ============================================ */
@@ -368,12 +380,17 @@
         .gradient-card {
             aspect-ratio: 1;
             border-radius: 20px;
-            cursor: pointer;
-            position: relative;
+            cursor: pointer !important;
+            pointer-events: auto !important;
+            position: relative !important;
             overflow: hidden;
             box-shadow: var(--shadow-md);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .gradient-card * {
+            pointer-events: auto;
+}
 
         .gradient-card:hover {
             transform: translateY(-5px) scale(1.02);
@@ -452,11 +469,14 @@
             font-size: 18px;
             color: var(--accent);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            pointer-events: auto !important;
+            z-index: 10 !important;
         }
 
         .gradient-card:hover .copy-gradient-btn {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto !important;
         }
 
         .copy-gradient-btn:hover {
@@ -595,6 +615,7 @@
             background: var(--bg-tertiary);
             outline: none;
             -webkit-appearance: none;
+            appearance: none;
             position: relative;
         }
 
@@ -701,7 +722,7 @@
             font-size: 14px;
             font-weight: 600;
             transition: all 0.3s;
-            color: var(--text-tertiary); /* Made grey as requested */
+            color: var(--text-tertiary);
         }
 
         .color-hex:focus {
@@ -1058,77 +1079,6 @@
         }
 
         /* ============================================
-           POPULAR BUTTON PRESETS
-           ============================================ */
-        .neon-glow-btn {
-            background: linear-gradient(45deg, #ff006e, #8338ec);
-            border: none;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
-        }
-
-        .neon-glow-btn:hover {
-            box-shadow: 0 0 30px rgba(255, 0, 110, 0.8);
-            transform: translateY(-2px);
-        }
-
-        .glass-morphism-btn {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-primary);
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .glass-morphism-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .gradient-border-btn {
-            background: var(--bg-primary);
-            background-clip: padding-box;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-weight: 600;
-            color: var(--text-primary);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .gradient-border-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            padding: 2px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: inherit;
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-        }
-
-        .gradient-border-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        /* ============================================
-           THEME TOGGLE STYLES - REMOVED COMPLETELY
-           ============================================ */
-
-        /* ============================================
            NOTIFICATION TOAST ENHANCEMENT
            ============================================ */
         .toast {
@@ -1163,7 +1113,7 @@
         }
 
         /* ============================================
-           ANIMATION CLASSES - FIXED WITH PROPER COLOR INHERITANCE
+           ANIMATION CLASSES
            ============================================ */
         @keyframes gradient-shift {
             0% { background-position: 0% 50%; }
@@ -1238,45 +1188,6 @@
             border-radius: 50%;
             animation: sparkle 1.5s ease-in-out;
             pointer-events: none;
-        }
-
-        /* ============================================
-           INITIALIZATION ENHANCEMENTS
-           ============================================ */
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
-            renderGradients();
-            renderPalettes();
-            renderButtonPresets();
-            updateCustomGradient();
-            updateColorWheel();
-            initializeButtonControls(); // Initialize the new button controls
-        });
-
-       function initializeButtonControls() {
-            // Set up event listeners for all button controls
-            const controls = [
-                'bg-type', 'bg-color', 'border-width', 'border-color', 
-                'padding', 'border-radius', 'font-size', 'font-weight', 
-                'text-color', 'shadow-blur', 'shadow-spread', 'hover-effect'
-            ];
-
-            controls.forEach(controlId => {
-                const element = document.getElementById(controlId);
-                if (element) {
-                    element.addEventListener('input', updateButtonStyle);
-                    element.addEventListener('change', updateButtonStyle);
-                }
-            });
-
-            // Initialize button style and CSS preview
-            updateButtonStyle();
-            
-            // Update import preview with default gradient
-            const importPreview = document.getElementById('import-preview');
-            if (importPreview) {
-                importPreview.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
-            }
         }
 
         /* ============================================
@@ -1449,7 +1360,7 @@
                 <h3>Import from Prebuilt Gradients</h3>
                 <p style="color: var(--text-secondary); margin-bottom: 10px;">Select a gradient from Prebuilt Gradients and click to import:</p>
                 <button class="btn btn-secondary" onclick="importSelectedGradient()">
-                    📥 Import Selected Gradient
+                    🔥 Import Selected Gradient
                 </button>
                 <div class="gradient-import-preview" id="import-preview" style="background: linear-gradient(45deg, #667eea, #764ba2);">
                     Select a gradient to preview
@@ -1993,7 +1904,7 @@
         /* ============================================
            POPULAR BUTTON PRESETS
            ============================================ */
-const buttonPresets = [
+        const buttonPresets = [
     {
         name: "3D Raised",
         html: '<button class="raised-btn">Click Me</button>',
@@ -2794,7 +2705,7 @@ const buttonPresets = [
     transform: scale(1.05);
 }`
     }
-];
+        ];
 
         /* ============================================
            STATE MANAGEMENT
@@ -2808,68 +2719,63 @@ const buttonPresets = [
         let currentFilter = 'all';
         let selectedButtonPreset = null;
         let currentAnimationType = 'none';
+        let currentAnimationSpeed = 4;
+        let currentAnimationDirection = 'normal';
+        let currentConicBlend = 50;
+
+        // Button style state
+        let currentButtonStyle = {
+            bgType: 'solid',
+            bgColor: '#667eea',
+            borderWidth: 0,
+            borderColor: '#667eea',
+            padding: 12,
+            borderRadius: 8,
+            fontSize: 14,
+            fontWeight: 600,
+            textColor: '#ffffff',
+            shadowBlur: 0,
+            shadowSpread: 0,
+            hoverEffect: 'none'
+        };
 
         /* ============================================
-           INITIALIZATION
+           INITIALIZATION & ERROR HANDLING
            ============================================ */
         document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
-            renderGradients();
-            renderPalettes();
-            renderButtonPresets();
-            updateCustomGradient();
-            updateColorWheel();
+            try {
+                console.log('🚀 Initializing Gradient Studio Pro...');
+                renderGradients();
+                renderPalettes();
+                renderButtonPresets();
+                updateCustomGradient();
+                updateColorWheel();
+                initializeButtonControls();
+                console.log('✅ Gradient Studio Pro initialized successfully');
+            } catch (error) {
+                console.error('❌ Initialization error:', error);
+                showToast('Application initialization error', 'error');
+            }
         });
-
-        /* ============================================
-           THEME MANAGEMENT
-           ============================================ */
-        function initializeTheme() {
-            // Note: localStorage is not available in Claude artifacts
-            // Using default light theme
-            const theme = 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-            updateThemeIcon(theme);
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            updateThemeIcon(newTheme);
-            createSparkles(event.target);
-            showToast(`Switched to ${newTheme} mode! 🎨`);
-        }
-
-        function updateThemeIcon(theme) {
-            const icon = document.getElementById('theme-icon');
-            icon.textContent = theme === 'light' ? '☀️' : '🌙';
-        }
 
         /* ============================================
            TAB NAVIGATION
            ============================================ */
         function switchTab(tabName) {
-            // Update tab buttons with animation
+            // Update tab buttons
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
-                tab.classList.add('animate__animated', 'animate__pulse');
             });
             event.target.classList.add('active');
 
-            // Update tab content with animation
+            // Update tab content
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             const targetTab = document.getElementById(`${tabName}-tab`);
-            targetTab.classList.add('active');
-
-            // Clean up animations
-            setTimeout(() => {
-                document.querySelectorAll('.nav-tab').forEach(tab => {
-                    tab.classList.remove('animate__animated', 'animate__pulse');
-                });
-            }, 500);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
         }
 
         /* ============================================
@@ -2878,25 +2784,19 @@ const buttonPresets = [
         function filterGradients(category) {
             currentFilter = category;
             
-            // Update filter tags with animation
+            // Update filter tags
             document.querySelectorAll('.filter-tag').forEach(tag => {
                 tag.classList.remove('active');
-                tag.classList.add('animate__animated', 'animate__rubberBand');
             });
             event.target.classList.add('active');
             
             renderGradients();
-            
-            // Clean up animations
-            setTimeout(() => {
-                document.querySelectorAll('.filter-tag').forEach(tag => {
-                    tag.classList.remove('animate__animated', 'animate__rubberBand');
-                });
-            }, 1000);
         }
 
         function renderGradients() {
             const grid = document.getElementById('gradients-grid');
+            if (!grid) return;
+            
             grid.innerHTML = '';
 
             const gradientsToRender = currentFilter === 'all' 
@@ -2908,7 +2808,15 @@ const buttonPresets = [
                 card.className = 'gradient-card animate__animated animate__fadeIn';
                 card.style.background = generateGradientCSS(gradient);
                 card.style.animationDelay = `${index * 0.1}s`;
-                card.onclick = () => selectGradient(gradient, card);
+                
+                // Make sure this click handler is properly set
+                card.onclick = (e) => {
+                    // Prevent copy button from triggering selection
+                    if (e.target.classList.contains('copy-gradient-btn')) {
+                        return;
+                    }
+                    selectGradient(gradient, card);
+                };
                 
                 const name = document.createElement('div');
                 name.className = 'gradient-name';
@@ -2920,10 +2828,30 @@ const buttonPresets = [
                 
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'copy-gradient-btn';
-                copyBtn.innerHTML = '📋';
+                copyBtn.textContent = "📋";
+                copyBtn.style.position = 'absolute'; // Make sure it's positioned properly
+                copyBtn.style.zIndex = '20'; // Ensure it's on top
+
                 copyBtn.onclick = (e) => {
+                    console.log('Copy button clicked for:', gradient.name); // Debug line
                     e.stopPropagation();
-                    copyGradientCSS(gradient);
+                    e.preventDefault();
+                    copyGradientCSS(gradient, copyBtn);
+                    return false;
+                };
+
+                // Backup method with addEventListener
+                copyBtn.addEventListener('click', (e) => {
+                    console.log('Copy button clicked (addEventListener):', gradient.name);
+                    e.stopPropagation();
+                    e.preventDefault();
+                    copyGradientCSS(gradient, copyBtn);
+                }, true); // Use capture phase
+
+                // Also add mousedown event as backup
+                copyBtn.onmousedown = (e) => {
+                    console.log('Copy button mousedown for:', gradient.name); // Debug line
+                    e.stopPropagation();
                 };
                 
                 card.appendChild(name);
@@ -2938,41 +2866,70 @@ const buttonPresets = [
                 return `linear-gradient(${gradient.angle || 45}deg, ${gradient.colors.join(', ')})`;
             } else if (gradient.type === 'radial') {
                 return `radial-gradient(circle, ${gradient.colors.join(', ')})`;
-             } else if (gradient.type === 'conic') {
-                return `conic-gradient(from 0deg, ${gradient.colors.join(', ')})`;
+            } else if (gradient.type === 'conic') {
+                return `conic-gradient(from ${gradient.angle || 0}deg, ${gradient.colors.join(', ')})`;
             }
+            return `linear-gradient(45deg, ${gradient.colors.join(', ')})`;
         }
 
-        function copyGradientCSS(gradient) {
-            const css = `/* ${gradient.name} */
-background: ${generateGradientCSS(gradient)};`;
+        function copyGradientCSS(gradient, targetElement = null) {
+            const css = `/* ${gradient.name} */\nbackground: ${generateGradientCSS(gradient)};`;
             
-            navigator.clipboard.writeText(css).then(() => {
-                showToast(`Copied "${gradient.name}" CSS! 📋`);
-                createSparkles(event.target);
-            }).catch(() => {
-                showToast('Copy failed. Try again! ❌');
-            });
+            // Add fallback for older browsers
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(css).then(() => {
+                    showToast(`Copied "${gradient.name}" CSS!`);
+                    if (targetElement) {
+                        createSparkles(targetElement);
+                    }
+                }).catch((err) => {
+                    console.error('Copy failed:', err);
+                    fallbackCopy(css);
+                });
+            } else {
+                fallbackCopy(css);
+            }
+}
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Copied to clipboard!');
+            } catch (err) {
+                showToast('Copy failed. Please try again.');
+            }
+            document.body.removeChild(textarea);
         }
 
         function selectGradient(gradient, cardElement) {
+            console.log('Selecting gradient:', gradient.name); // Debug line
+            
             // Remove previous selection
             document.querySelectorAll('.gradient-card').forEach(card => {
                 card.classList.remove('selected');
             });
             
-            // Add selection with animation
-            cardElement.classList.add('selected', 'animate__animated', 'animate__pulse');
+            // Add selection
+            cardElement.classList.add('selected');
             selectedGradient = gradient;
             
+            // Update import preview if on Build Your Own tab
+            const importPreview = document.getElementById('import-preview');
+            if (importPreview) {
+                importPreview.style.background = generateGradientCSS(gradient);
+                importPreview.textContent = `Selected: ${gradient.name}`;
+            }
+            
+            // Add sparkles effect
             createSparkles(cardElement);
             showToast(`Selected "${gradient.name}"! ✨`);
-            
-            // Clean up animation
-            setTimeout(() => {
-                cardElement.classList.remove('animate__animated', 'animate__pulse');
-            }, 1000);
-        }
+}
 
         function shuffleGradients() {
             const shuffled = [...prebuiltGradients].sort(() => Math.random() - 0.5);
@@ -2982,329 +2939,12 @@ background: ${generateGradientCSS(gradient)};`;
             showToast('Gradients shuffled! 🎲');
         }
 
-        function updateAnimationSpeed() {
-            const speedSlider = document.getElementById('animation-speed');
-            const speedValue = document.getElementById('animation-speed-value');
-            
-            if (speedSlider && speedValue) {
-                currentAnimationSpeed = parseInt(speedSlider.value);
-                speedValue.textContent = `${currentAnimationSpeed}s`;
-                applyAnimation();
-                updateGradientCSSPreview();
-            }
-        }
-
-        function updateAnimationDirection() {
-            const directionSelect = document.getElementById('animation-direction');
-            
-            if (directionSelect) {
-                currentAnimationDirection = directionSelect.value;
-                applyAnimation();
-                updateGradientCSSPreview();
-            }
-        }
-
-        function selectButtonPreset(preset, cardElement) {
-            // Remove previous selection
-            document.querySelectorAll('.preset-button-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-
-            // Add selection
-            cardElement.classList.add('selected');
-
-            // Get preview button and live CSS preview
-            const previewButton = document.getElementById('preview-button');
-            const cssPreview = document.getElementById('css-preview'); // <-- fixed ID
-            if (!previewButton || !cssPreview) return;
-
-            // Remove any existing preset styles
-            const existingStyles = document.querySelectorAll('#preset-style');
-            existingStyles.forEach(style => style.remove());
-
-            // Extract class name from preset HTML
-            const classMatch = preset.html.match(/class="([^"]+)"/);
-            const originalClassName = classMatch ? classMatch[1] : 'preset-btn';
-
-            // Create new style element for the preview
-            const style = document.createElement('style');
-            style.id = 'preset-style';
-
-            // Replace the original class selector with #preview-button in the CSS
-            let modifiedCSS = preset.css;
-            modifiedCSS = modifiedCSS.replace(new RegExp(`\\.${originalClassName}`, 'g'), '#preview-button');
-
-            // Apply the modified CSS
-            style.textContent = modifiedCSS;
-            document.head.appendChild(style);
-
-            // Update button text
-            const buttonText = document.getElementById('button-text')?.value || 'Sample Button';
-            previewButton.textContent = buttonText;
-
-            // Update the Live CSS Preview with the original preset CSS
-            cssPreview.textContent = `/* ${preset.name} Preset */
-        ${preset.css}
-
-        /* HTML Usage */
-        ${preset.html.replace('Click Me', buttonText)}`;
-
-            // Clear the preview button's inline styles so the preset CSS takes effect
-            previewButton.style.cssText = '';
-            previewButton.className = '';
-
-            showToast(`Selected "${preset.name}" preset!`);
-        }
-
-        function populateControlsFromPreset(preset) {
-            // This function extracts styles from the preset and populates the form controls
-            // so users can edit the preset button
-            
-            try {
-                // Parse CSS to extract common properties
-                const css = preset.css;
-                
-                // Extract background color
-                const bgMatch = css.match(/background:\s*([^;]+)/);
-                if (bgMatch) {
-                    const bgValue = bgMatch[1].trim();
-                    if (bgValue.includes('linear-gradient') || bgValue.includes('radial-gradient')) {
-                        const bgTypeSelect = document.getElementById('bg-type');
-                        if (bgTypeSelect) bgTypeSelect.value = 'gradient';
-                        currentButtonStyle.bgType = 'gradient';
-                    } else if (bgValue === 'transparent') {
-                        const bgTypeSelect = document.getElementById('bg-type');
-                        if (bgTypeSelect) bgTypeSelect.value = 'transparent';
-                        currentButtonStyle.bgType = 'transparent';
-                    } else if (bgValue.startsWith('#') || bgValue.startsWith('rgb')) {
-                        const bgTypeSelect = document.getElementById('bg-type');
-                        const bgColorInput = document.getElementById('bg-color');
-                        if (bgTypeSelect) bgTypeSelect.value = 'solid';
-                        if (bgColorInput && bgValue.startsWith('#')) bgColorInput.value = bgValue;
-                        currentButtonStyle.bgType = 'solid';
-                        currentButtonStyle.bgColor = bgValue;
-                    }
-                }
-                
-                // Extract padding
-                const paddingMatch = css.match(/padding:\s*(\d+)px/);
-                if (paddingMatch) {
-                    const paddingInput = document.getElementById('padding');
-                    if (paddingInput) {
-                        paddingInput.value = paddingMatch[1];
-                        currentButtonStyle.padding = parseInt(paddingMatch[1]);
-                    }
-                }
-                
-                // Extract border-radius
-                const radiusMatch = css.match(/border-radius:\s*(\d+)px/);
-                if (radiusMatch) {
-                    const radiusInput = document.getElementById('border-radius');
-                    if (radiusInput) {
-                        radiusInput.value = radiusMatch[1];
-                        currentButtonStyle.borderRadius = parseInt(radiusMatch[1]);
-                    }
-                }
-                
-                // Extract font-size
-                const fontSizeMatch = css.match(/font-size:\s*(\d+)px/);
-                if (fontSizeMatch) {
-                    const fontSizeInput = document.getElementById('font-size');
-                    if (fontSizeInput) {
-                        fontSizeInput.value = fontSizeMatch[1];
-                        currentButtonStyle.fontSize = parseInt(fontSizeMatch[1]);
-                    }
-                }
-                
-                // Extract font-weight
-                const fontWeightMatch = css.match(/font-weight:\s*(\d+)/);
-                if (fontWeightMatch) {
-                    const fontWeightSelect = document.getElementById('font-weight');
-                    if (fontWeightSelect) {
-                        fontWeightSelect.value = fontWeightMatch[1];
-                        currentButtonStyle.fontWeight = fontWeightMatch[1];
-                    }
-                }
-                
-                // Extract color
-                const colorMatch = css.match(/color:\s*([^;]+)/);
-                if (colorMatch) {
-                    const colorValue = colorMatch[1].trim();
-                    const textColorInput = document.getElementById('text-color');
-                    if (textColorInput && colorValue.startsWith('#')) {
-                        textColorInput.value = colorValue;
-                        currentButtonStyle.textColor = colorValue;
-                    } else if (colorValue === 'white') {
-                        if (textColorInput) textColorInput.value = '#ffffff';
-                        currentButtonStyle.textColor = '#ffffff';
-                    }
-                }
-                
-                // Extract border
-                const borderMatch = css.match(/border:\s*(\d+)px\s+solid\s+([^;]+)/);
-                if (borderMatch) {
-                    const borderWidthInput = document.getElementById('border-width');
-                    const borderColorInput = document.getElementById('border-color');
-                    if (borderWidthInput) {
-                        borderWidthInput.value = borderMatch[1];
-                        currentButtonStyle.borderWidth = parseInt(borderMatch[1]);
-                    }
-                    if (borderColorInput && borderMatch[2].startsWith('#')) {
-                        borderColorInput.value = borderMatch[2];
-                        currentButtonStyle.borderColor = borderMatch[2];
-                    }
-                }
-                
-                // Update all slider displays
-                updateSliderDisplays();
-                
-            } catch (error) {
-                console.log('Could not parse preset styles completely, using defaults');
-            }
-        }
-
-        function updateSliderDisplays() {
-            // Update all slider value displays
-            const sliders = {
-                'border-width': 'px',
-                'padding': 'px',
-                'border-radius': 'px',
-                'font-size': 'px',
-                'shadow-blur': 'px',
-                'shadow-spread': 'px'
-            };
-
-            Object.entries(sliders).forEach(([sliderId, unit]) => {
-                const slider = document.getElementById(sliderId);
-                const valueDisplay = document.getElementById(`${sliderId}-value`);
-                if (slider && valueDisplay) {
-                    valueDisplay.textContent = `${slider.value}${unit}`;
-                }
-            });
-        }
-        function updateGradientCSSPreview() {
-            const cssPreview = document.getElementById('gradient-css-preview');
-            if (!cssPreview) return;
-            
-            let css = `/* Custom Gradient CSS */
-.custom-gradient {
-    background: ${generateGradientCSS(customGradient)};`;
-
-            // Add animation if applied
-            const animationType = document.getElementById('animation-type')?.value;
-            if (animationType && animationType !== 'none') {
-                css += `
-    background-size: 400% 400%;
-    animation: animated-${animationType} ${currentAnimationSpeed}s ${currentAnimationDirection} infinite;`;
-            }
-
-            css += `
-}
-
-/* Usage */
-<div class="custom-gradient">Your content here</div>`;
-
-            // Add keyframes if animation is used
-            if (animationType && animationType !== 'none') {
-                css += `
-
-/* Required keyframes for animation */
-@keyframes animated-${animationType} {`;
-                
-                switch (animationType) {
-                    case 'shift':
-                        css += `
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }`;
-                        break;
-                    case 'wave':
-                        css += `
-    0%, 100% { background-position: 0% 50%; }
-    25% { background-position: 100% 50%; }
-    75% { background-position: 50% 100%; }`;
-                        break;
-                    case 'pulse':
-                        css += `
-    0%, 100% { background-size: 100% 100%; }
-    50% { background-size: 200% 200%; }`;
-                        break;
-                    case 'rotate':
-                        css += `
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }`;
-                        break;
-                    case 'zoom':
-                        css += `
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }`;
-                        break;
-                }
-                css += `
-}`;
-            }
-
-            cssPreview.textContent = css;
-        }
-
-        function copyGradientCSSFromPreview() {
-            const cssPreview = document.getElementById('gradient-css-preview');
-            if (!cssPreview) return;
-            
-            const css = cssPreview.textContent;
-            
-            navigator.clipboard.writeText(css).then(() => {
-                showToast('Gradient CSS copied from preview');
-                createSparkles(event.target);
-            }).catch(() => {
-                showToast('Copy failed. Try again');
-            });
-        }
-
-        let currentAnimationSpeed = 4;
-        let currentAnimationDirection = 'normal';
-
-       let currentConicBlend = 50;
-
-        function updateConicBlend() {
-            const blendSlider = document.getElementById('conic-blend');
-            const blendValue = document.getElementById('conic-blend-value');
-            
-            if (blendSlider && blendValue) {
-                currentConicBlend = parseInt(blendSlider.value);
-                blendValue.textContent = `${currentConicBlend}%`;
-                updateCustomGradient();
-            }
-        }
-
-        function generateGradientCSS(gradient) {
-            if (gradient.type === 'linear') {
-                return `linear-gradient(${gradient.angle || 45}deg, ${gradient.colors.join(', ')})`;
-            } else if (gradient.type === 'radial') {
-                return `radial-gradient(circle, ${gradient.colors.join(', ')})`;
-            } else if (gradient.type === 'conic') {
-                // Enhanced conic gradient with better blending
-                const blendedColors = [];
-                gradient.colors.forEach((color, index) => {
-                    const position = (index / (gradient.colors.length - 1)) * 100;
-                    blendedColors.push(`${color} ${position}%`);
-                    
-                    // Add intermediate colors for smoother blending
-                    if (index < gradient.colors.length - 1 && currentConicBlend > 30) {
-                        const nextColor = gradient.colors[index + 1];
-                        const intermediatePos = position + ((100 / (gradient.colors.length - 1)) * (currentConicBlend / 100));
-                        blendedColors.push(`${color} ${Math.min(intermediatePos, 100)}%`);
-                    }
-                });
-                
-                return `conic-gradient(from ${gradient.angle || 0}deg, ${blendedColors.join(', ')})`;
-            }
-            return `linear-gradient(45deg, ${gradient.colors.join(', ')})`;
-        }
-
+        /* ============================================
+           CUSTOM GRADIENT BUILDER
+           ============================================ */
         function updateCustomGradient() {
             const type = document.querySelector('input[name="gradient-type"]:checked')?.value || 'linear';
-           const angleSlider = document.getElementById('angle-slider');
+            const angleSlider = document.getElementById('angle-slider');
             const angleValue = document.getElementById('angle-value');
             const angleControl = document.getElementById('angle-control');
             const conicControls = document.getElementById('conic-controls');
@@ -3335,86 +2975,14 @@ background: ${generateGradientCSS(gradient)};`;
             const colorInputs = document.querySelectorAll('#color-stops .color-input');
             customGradient.colors = Array.from(colorInputs).map(input => input.value);
             
-            // Update preview with current gradient
+            // Update preview
             const preview = document.getElementById('custom-preview');
             if (preview) {
                 const gradientCSS = generateGradientCSS(customGradient);
                 preview.style.background = gradientCSS;
-                
-                // If animation is active, reapply it with correct colors
-                const animationType = document.getElementById('animation-type')?.value;
-                if (animationType && animationType !== 'none') {
-                    // Force update the animation style with current gradient
-                    let customStyle = document.getElementById('custom-animation-style');
-                    if (customStyle) {
-                        customStyle.textContent = `
-                            #custom-preview.animated-${animationType} {
-                                animation-duration: ${currentAnimationSpeed}s !important;
-                                animation-direction: ${currentAnimationDirection} !important;
-                                background: ${gradientCSS} !important;
-                            }
-                        `;
-                    }
-                }
             }
             
             // Update CSS preview
-            updateGradientCSSPreview();
-        }
-
-        function applyAnimation() {
-           const animationSelect = document.getElementById('animation-type');
-            const preview = document.getElementById('custom-preview');
-            const speedControl = document.getElementById('animation-speed-control');
-            const directionControl = document.getElementById('animation-direction-control');
-            
-            if (!animationSelect || !preview) return;
-            
-            const animationType = animationSelect.value;
-            
-            // Remove all animation classes (removed zoom)
-            preview.classList.remove('animated-shift', 'animated-wave', 'animated-pulse', 'animated-rotate');
-            
-            // Show/hide animation controls
-            if (animationType !== 'none') {
-                // Ensure the background is set with the current gradient
-                preview.style.background = generateGradientCSS(customGradient);
-                
-                // Add animation class
-                preview.classList.add(`animated-${animationType}`);
-                
-                if (speedControl) speedControl.style.display = 'block';
-                if (directionControl) directionControl.style.display = 'block';
-                
-                // Apply custom speed and direction
-                let customStyle = document.getElementById('custom-animation-style');
-                if (!customStyle) {
-                    customStyle = document.createElement('style');
-                    customStyle.id = 'custom-animation-style';
-                    document.head.appendChild(customStyle);
-                }
-                
-                customStyle.textContent = `
-                    #custom-preview.animated-${animationType} {
-                        animation-duration: ${currentAnimationSpeed}s !important;
-                        animation-direction: ${currentAnimationDirection} !important;
-                        background: ${generateGradientCSS(customGradient)} !important;
-                    }
-                `;
-                
-                showToast(`Applied ${animationType} animation`);
-            } else {
-                if (speedControl) speedControl.style.display = 'none';
-                if (directionControl) directionControl.style.display = 'none';
-                
-                // Remove custom animation style
-                const customStyle = document.getElementById('custom-animation-style');
-                if (customStyle) customStyle.remove();
-                
-                showToast('Animation removed');
-            }
-            
-            currentAnimationType = animationType;
             updateGradientCSSPreview();
         }
 
@@ -3478,34 +3046,170 @@ background: ${generateGradientCSS(gradient)};`;
             cssPreview.textContent = css;
         }
 
-        function initializeButtonControls() {
-           // Set up event listeners for all button controls
-            const controls = [
-                'bg-type', 'bg-color', 'border-width', 'border-color', 
-                'padding', 'border-radius', 'font-size', 'font-weight', 
-                'text-color', 'shadow-blur', 'shadow-spread', 'hover-effect'
-            ];
-
-            controls.forEach(controlId => {
-                const element = document.getElementById(controlId);
-                if (element) {
-                    element.addEventListener('input', updateButtonStyle);
-                    element.addEventListener('change', updateButtonStyle);
-                }
-            });
-
-            // Initialize button style and CSS preview
-            if (typeof updateButtonStyle === 'function') {
-                updateButtonStyle();
+        function applyAnimation() {
+            const animationSelect = document.getElementById('animation-type');
+            const preview = document.getElementById('custom-preview');
+            const speedControl = document.getElementById('animation-speed-control');
+            const directionControl = document.getElementById('animation-direction-control');
+            
+            if (!animationSelect || !preview) return;
+            
+            const animationType = animationSelect.value;
+            
+            // Remove all animation classes
+            preview.classList.remove('animated-shift', 'animated-wave', 'animated-pulse', 'animated-rotate');
+            
+            // Show/hide animation controls
+            if (animationType !== 'none') {
+                preview.style.background = generateGradientCSS(customGradient);
+                preview.classList.add(`animated-${animationType}`);
+                
+                if (speedControl) speedControl.style.display = 'block';
+                if (directionControl) directionControl.style.display = 'block';
+                
+                showToast(`Applied ${animationType} animation`);
+            } else {
+                if (speedControl) speedControl.style.display = 'none';
+                if (directionControl) directionControl.style.display = 'none';
+                
+                showToast('Animation removed');
             }
             
-            // Update import preview with default gradient
-            const importPreview = document.getElementById('import-preview');
-            if (importPreview) {
-                importPreview.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            currentAnimationType = animationType;
+            updateGradientCSSPreview();
+        }
+
+        function updateAnimationSpeed() {
+            const speedSlider = document.getElementById('animation-speed');
+            const speedValue = document.getElementById('animation-speed-value');
+            
+            if (speedSlider && speedValue) {
+                currentAnimationSpeed = parseInt(speedSlider.value);
+                speedValue.textContent = `${currentAnimationSpeed}s`;
+                applyAnimation();
+                updateGradientCSSPreview();
             }
         }
 
+        function updateAnimationDirection() {
+            const directionSelect = document.getElementById('animation-direction');
+            
+            if (directionSelect) {
+                currentAnimationDirection = directionSelect.value;
+                applyAnimation();
+                updateGradientCSSPreview();
+            }
+        }
+
+        function updateConicBlend() {
+            const blendSlider = document.getElementById('conic-blend');
+            const blendValue = document.getElementById('conic-blend-value');
+            
+            if (blendSlider && blendValue) {
+                currentConicBlend = parseInt(blendSlider.value);
+                blendValue.textContent = `${currentConicBlend}%`;
+                updateCustomGradient();
+            }
+        }
+
+        function copyCustomGradient() {
+            const css = `/* Custom Gradient */
+            background: ${generateGradientCSS(customGradient)};`;
+            
+            navigator.clipboard.writeText(css).then(() => {
+                showToast('Custom gradient CSS copied!');
+                const copyButton = document.querySelector('.preview-copy-btn');
+                if (copyButton) {
+                    createSparkles(copyButton);
+                }
+            }).catch(() => {
+                showToast('Copy failed. Try again!');
+            });
+        }
+
+        function copyGradientCSSFromPreview() {
+            const cssPreview = document.getElementById('gradient-css-preview');
+            if (!cssPreview) return;
+            
+            const css = cssPreview.textContent;
+            
+            navigator.clipboard.writeText(css).then(() => {
+                showToast('Gradient CSS copied from preview!');
+                const copyButton = document.querySelector('.btn-success');
+                if (copyButton) {
+                    createSparkles(copyButton);
+                }
+            }).catch(() => {
+                showToast('Copy failed. Try again!');
+            });
+        }
+
+        function importSelectedGradient() {
+            console.log('Import attempt - selectedGradient:', selectedGradient); // Debug line
+            
+            if (!selectedGradient) {
+                showToast('Please select a gradient from Prebuilt Gradients first! Click on any gradient card to select it.');
+                return;
+            }
+
+            console.log('Importing gradient:', selectedGradient.name); // Debug line
+
+            // Update custom gradient with selected gradient
+            customGradient = {
+                type: selectedGradient.type,
+                angle: selectedGradient.angle || 45,
+                colors: [...selectedGradient.colors]
+            };
+
+            // Update UI controls
+            const gradientTypeInput = document.querySelector(`input[name="gradient-type"][value="${selectedGradient.type}"]`);
+            if (gradientTypeInput) {
+                gradientTypeInput.checked = true;
+            }
+            
+            if (selectedGradient.angle) {
+                const angleSlider = document.getElementById('angle-slider');
+                const angleValue = document.getElementById('angle-value');
+                if (angleSlider) angleSlider.value = selectedGradient.angle;
+                if (angleValue) angleValue.textContent = `${selectedGradient.angle}°`;
+            }
+
+            // Update color stops
+            const colorStops = document.getElementById('color-stops');
+            if (colorStops) {
+                colorStops.innerHTML = '';
+
+                selectedGradient.colors.forEach(color => {
+                    const newStop = document.createElement('div');
+                    newStop.className = 'color-stop';
+                    newStop.innerHTML = `
+                        <div class="color-input-wrapper">
+                            <div class="color-preview" style="background: ${color}" onclick="this.nextElementSibling.click()"></div>
+                            <input type="color" class="color-input" value="${color}" onchange="updateColorStop(this)">
+                            <input type="text" class="color-hex" value="${color}" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
+                        </div>
+                        ${selectedGradient.colors.length > 2 ? '<button class="remove-stop" onclick="removeColorStop(this)">×</button>' : ''}
+                    `;
+                    colorStops.appendChild(newStop);
+                });
+            }
+
+            // Update preview
+            updateCustomGradient();
+            
+            // Update import preview
+            const importPreview = document.getElementById('import-preview');
+            if (importPreview) {
+                importPreview.style.background = generateGradientCSS(selectedGradient);
+                importPreview.textContent = `Imported: ${selectedGradient.name}`;
+            }
+
+            showToast(`Imported "${selectedGradient.name}" successfully! 🔥`);
+}
+
+        /* ============================================
+           COLOR WHEEL & COLOR STOP FUNCTIONS
+           ============================================ */
         function updateColorWheel() {
             const colorWheel = document.getElementById('color-wheel');
             const hexCode = document.getElementById('hex-code');
@@ -3523,6 +3227,15 @@ background: ${generateGradientCSS(gradient)};`;
             if (rgbCode && rgb) {
                 rgbCode.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
             }
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
         }
 
         function addColorStop() {
@@ -3560,7 +3273,7 @@ background: ${generateGradientCSS(gradient)};`;
             if (colorStops.children.length <= 2) {
                 showToast('Minimum 2 color stops required');
                 return;
-           }
+            }
             
             const colorStop = button.parentElement;
             if (colorStop) {
@@ -3582,7 +3295,7 @@ background: ${generateGradientCSS(gradient)};`;
         }
 
         function updateColorStopHex(input) {
-           if (!input) return;
+            if (!input) return;
             
             const colorInput = input.previousElementSibling;
             const preview = colorInput ? colorInput.previousElementSibling : null;
@@ -3625,320 +3338,196 @@ background: ${generateGradientCSS(gradient)};`;
             showToast(`Added ${color} to gradient`);
         }
 
-        function copyCustomGradient() {
-            const css = `/* Custom Gradient */
-background: ${generateGradientCSS(customGradient)};`;
+        /* ============================================
+           PALETTE RENDERING & FUNCTIONALITY
+           ============================================ */
+        function renderPalettes() {
+            const grid = document.getElementById('palettes-grid');
+            if (!grid) return;
             
-            navigator.clipboard.writeText(css).then(() => {
-                showToast('Custom gradient CSS copied');
-                createSparkles(event.target);
-            }).catch(() => {
-                showToast('Copy failed. Try again');
-            });
-        }
-        function updateCustomGradient() {
-            const type = document.querySelector('input[name="gradient-type"]:checked')?.value || 'linear';
-            const angleSlider = document.getElementById('angle-slider');
-            const angleValue = document.getElementById('angle-value');
-            const angleControl = document.getElementById('angle-control');
-            
-            customGradient.type = type;
-            
-            // Show/hide controls based on type
-            if (type === 'linear') {
-                if (angleControl) angleControl.style.display = 'block';
-                if (angleSlider && angleValue) {
-                    customGradient.angle = angleSlider.value;
-                    angleValue.textContent = `${angleSlider.value}°`;
-                }
-            } else if (type === 'conic') {
-                if (angleControl) angleControl.style.display = 'block';
-                if (angleSlider && angleValue) {
-                    customGradient.angle = angleSlider.value;
-                    angleValue.textContent = `${angleSlider.value}°`;
-                }
-            } else {
-                if (angleControl) angleControl.style.display = 'none';
-            }
-            
-            // Update colors from actual color inputs
-            const colorInputs = document.querySelectorAll('#color-stops .color-input');
-            customGradient.colors = Array.from(colorInputs).map(input => input.value);
-            
-            // Update preview with current gradient
-            const preview = document.getElementById('custom-preview');
-            if (preview) {
-                const gradientCSS = generateGradientCSS(customGradient);
-                preview.style.background = gradientCSS;
+            grid.innerHTML = '';
+
+            colorPalettes.forEach((palette, index) => {
+                const card = document.createElement('div');
+                card.className = 'palette-card animate__animated animate__fadeInUp';
+                card.style.animationDelay = `${index * 0.05}s`;
                 
-                // If animation is active, reapply it with correct colors
-                const animationType = document.getElementById('animation-type')?.value;
-                if (animationType && animationType !== 'none') {
-                    // Force update the animation style with current gradient
-                    let customStyle = document.getElementById('custom-animation-style');
-                    if (customStyle) {
-                        customStyle.textContent = `
-                            #custom-preview.animated-${animationType} {
-                                animation-duration: ${currentAnimationSpeed}s !important;
-                                animation-direction: ${currentAnimationDirection} !important;
-                                background: ${gradientCSS} !important;
-                            }
-                        `;
+                const name = document.createElement('div');
+                name.className = 'palette-name';
+                name.textContent = palette.name;
+                
+                const colors = document.createElement('div');
+                colors.className = 'palette-colors';
+                
+                palette.colors.forEach(color => {
+                    const colorDiv = document.createElement('div');
+                    colorDiv.className = 'palette-color';
+                    colorDiv.style.background = color;
+                    colorDiv.onclick = () => copyColor(color);
+                    
+                    const code = document.createElement('div');
+                    code.className = 'palette-color-code';
+                    code.textContent = color;
+                    
+                    colorDiv.appendChild(code);
+                    colors.appendChild(colorDiv);
+                });
+                
+                card.appendChild(name);
+                card.appendChild(colors);
+                grid.appendChild(card);
+            });
+        }
+
+        function copyColor(color) {
+            navigator.clipboard.writeText(color).then(() => {
+                showToast(`Copied ${color} to clipboard!`);
+                const colorElements = document.querySelectorAll('.palette-color');
+                colorElements.forEach(element => {
+                    if (element.style.background === color) {
+                        createSparkles(element);
                     }
-                }
-            }
-            
-            // Update CSS preview
-            updateGradientCSSPreview();
-        }
-
-        function addColorStop() {
-            const colorStops = document.getElementById('color-stops');
-            if (colorStops.children.length >= 6) {
-                showToast('Maximum 6 color stops allowed! 🎨');
-                return;
-            }
-            
-            const newStop = document.createElement('div');
-            newStop.className = 'color-stop animate__animated animate__bounceIn';
-            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-            
-            newStop.innerHTML = `
-                <div class="color-input-wrapper">
-                    <div class="color-preview" style="background: ${randomColor}" onclick="this.nextElementSibling.click()"></div>
-                    <input type="color" class="color-input" value="${randomColor}" onchange="updateColorStop(this)">
-                    <input type="text" class="color-hex" value="${randomColor}" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
-                </div>
-                <button class="remove-stop" onclick="removeColorStop(this)">×</button>
-            `;
-            
-            colorStops.appendChild(newStop);
-            updateCustomGradient();
-            
-            // Clean up animation
-            setTimeout(() => {
-                newStop.classList.remove('animate__animated', 'animate__bounceIn');
-            }, 1000);
-        }
-
-        function removeColorStop(button) {
-            const colorStops = document.getElementById('color-stops');
-            if (colorStops.children.length <= 2) {
-                showToast('Minimum 2 color stops required! 🎨');
-                return;
-            }
-            
-            const colorStop = button.parentElement;
-            colorStop.classList.add('animate__animated', 'animate__bounceOut');
-            setTimeout(() => {
-                colorStop.remove();
-                updateCustomGradient();
-            }, 500);
-        }
-
-        function updateColorStop(input) {
-            const preview = input.previousElementSibling;
-            const hexInput = input.nextElementSibling;
-            preview.style.background = input.value;
-            hexInput.value = input.value;
-            updateCustomGradient();
-        }
-
-        function updateColorStopHex(input) {
-            const colorInput = input.previousElementSibling;
-            const preview = colorInput.previousElementSibling;
-            if (/^#[0-9A-F]{6}$/i.test(input.value)) {
-                colorInput.value = input.value;
-                preview.style.background = input.value;
-                updateCustomGradient();
-            }
-        }
-
-        function copyCustomGradient() {
-            const css = `/* Custom Gradient */
-background: ${generateGradientCSS(customGradient)};`;
-            
-            navigator.clipboard.writeText(css).then(() => {
-                showToast('Custom gradient CSS copied! 📋');
-                createSparkles(event.target);
+                });
             }).catch(() => {
-                showToast('Copy failed. Try again! ❌');
+                showToast('Copy failed. Try again!');
             });
         }
 
-        /* ============================================
-           COLOR WHEEL FUNCTIONALITY
-           ============================================ */
-        function updateColorWheel() {
-            const colorWheel = document.getElementById('color-wheel');
-            const hexCode = document.getElementById('hex-code');
-            const rgbCode = document.getElementById('rgb-code');
-            
-            const hex = colorWheel.value;
-            const rgb = hexToRgb(hex);
-            
-            hexCode.textContent = `HEX: ${hex.toUpperCase()}`;
-            rgbCode.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-        }
-
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function addColorFromWheel() {
-            const colorWheel = document.getElementById('color-wheel');
-            const color = colorWheel.value;
-            
-            // Add new color stop with the selected color
-            const colorStops = document.getElementById('color-stops');
-            if (colorStops.children.length >= 6) {
-                showToast('Maximum 6 color stops allowed! 🎨');
-                return;
-            }
-            
-            const newStop = document.createElement('div');
-            newStop.className = 'color-stop animate__animated animate__bounceIn';
-            
-            newStop.innerHTML = `
-                <div class="color-input-wrapper">
-                    <div class="color-preview" style="background: ${color}" onclick="this.nextElementSibling.click()"></div>
-                    <input type="color" class="color-input" value="${color}" onchange="updateColorStop(this)">
-                    <input type="text" class="color-hex" value="${color}" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
-                </div>
-                <button class="remove-stop" onclick="removeColorStop(this)">×</button>
-            `;
-            
-            colorStops.appendChild(newStop);
-            updateCustomGradient();
-            showToast(`Added ${color} to gradient! 🎨`);
-            
-            // Clean up animation
-            setTimeout(() => {
-                newStop.classList.remove('animate__animated', 'animate__bounceIn');
-            }, 1000);
+        function shufflePalettes() {
+            const shuffled = [...colorPalettes].sort(() => Math.random() - 0.5);
+            colorPalettes.length = 0;
+            colorPalettes.push(...shuffled);
+            renderPalettes();
+            showToast('Palettes shuffled! 🎲');
         }
 
         /* ============================================
-           ANIMATION FUNCTIONALITY - FIXED
+           BUTTON BUILDER FUNCTIONALITY
            ============================================ */
-        function applyAnimation() {
-            const animationType = document.getElementById('animation-type').value;
-            const preview = document.getElementById('custom-preview');
+        function renderButtonPresets() {
+            const grid = document.getElementById('preset-buttons-grid');
+            if (!grid) return;
             
-            // Remove all animation classes
-            preview.classList.remove('animated-shift', 'animated-wave', 'animated-pulse', 'animated-rotate', 'animated-zoom');
-            
-            if (animationType !== 'none') {
-                preview.classList.add(`animated-${animationType}`);
-                showToast(`Applied ${animationType} animation! ✨`);
-            } else {
-                showToast('Animation removed 🔇');
-            }
-            
-            currentAnimationType = animationType;
+            grid.innerHTML = '';
+
+            buttonPresets.forEach(function(preset, index) {
+                const card = document.createElement('div');
+                card.className = 'preset-button-card animate__animated animate__fadeInUp';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.onclick = function() { 
+                    selectButtonPreset(preset, card); 
+                };
+                
+                const title = document.createElement('h4');
+                title.textContent = preset.name;
+                title.style.marginBottom = '15px';
+                title.style.color = 'var(--text-primary)';
+                
+                // Create a preview of the button
+                const preview = document.createElement('div');
+                preview.innerHTML = preset.html;
+                preview.style.marginBottom = '10px';
+                
+                // Apply the CSS styles inline for preview
+                const style = document.createElement('style');
+                style.textContent = preset.css;
+                card.appendChild(style);
+                
+                card.appendChild(title);
+                card.appendChild(preview);
+                grid.appendChild(card);
+            });
         }
 
-        /* ============================================
-           IMPORT GRADIENT FROM PREBUILT
-           ============================================ */
-        function importSelectedGradient() {
-            if (!selectedGradient) {
-                showToast('Please select a gradient from Prebuilt Gradients first! 👆');
-                return;
-            }
-
-            // Update custom gradient with selected gradient
-            customGradient = {
-                type: selectedGradient.type,
-                angle: selectedGradient.angle || 45,
-               colors: [...selectedGradient.colors]
-            };
-
-            // Update UI controls
-            document.querySelector(`input[name="gradient-type"][value="${selectedGradient.type}"]`).checked = true;
+        function selectButtonPreset(preset, cardElement) {
+            // Remove previous selection
+            document.querySelectorAll('.preset-button-card').forEach(card => {
+                card.classList.remove('selected');
+            });
             
-            if (selectedGradient.angle) {
-                document.getElementById('angle-slider').value = selectedGradient.angle;
-                document.getElementById('angle-value').textContent = `${selectedGradient.angle}°`;
-            }
+            // Add selection
+            cardElement.classList.add('selected');
+            selectedButtonPreset = preset;
+            
+            // Get preview button and CSS preview
+            const previewButton = document.getElementById('preview-button');
+            const cssPreview = document.getElementById('css-preview');
+            
+            if (!previewButton || !cssPreview) return;
 
-            // Update color stops
-            const colorStops = document.getElementById('color-stops');
-            colorStops.innerHTML = '';
+            // Remove any existing preset styles
+            const existingStyles = document.querySelectorAll('#preset-style');
+            existingStyles.forEach(style => style.remove());
 
-            selectedGradient.colors.forEach(color => {
-                const newStop = document.createElement('div');
-                newStop.className = 'color-stop';
-                newStop.innerHTML = `
-                    <div class="color-input-wrapper">
-                        <div class="color-preview" style="background: ${color}" onclick="this.nextElementSibling.click()"></div>
-                        <input type="color" class="color-input" value="${color}" onchange="updateColorStop(this)">
-                        <input type="text" class="color-hex" value="${color}" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
-                    </div>
-                    ${selectedGradient.colors.length > 2 ? '<button class="remove-stop" onclick="removeColorStop(this)">×</button>' : ''}
-                `;
-                colorStops.appendChild(newStop);
+            // Extract class name from preset HTML
+            const classMatch = preset.html.match(/class="([^"]+)"/);
+            const originalClassName = classMatch ? classMatch[1] : 'preset-btn';
+
+            // Create new style element for the preview
+            const style = document.createElement('style');
+            style.id = 'preset-style';
+            
+            // Apply styles directly to the preview button ID
+            let modifiedCSS = preset.css.replace(new RegExp(`\\.${originalClassName}`, 'g'), '#preview-button');
+            style.textContent = modifiedCSS;
+            document.head.appendChild(style);
+
+            // Clear inline styles and classes so preset CSS takes effect
+            previewButton.style.cssText = '';
+            previewButton.className = '';
+            
+            // Update button text
+            const buttonText = document.getElementById('button-text')?.value || 'Sample Button';
+            previewButton.textContent = buttonText;
+
+            // Update the CSS preview
+            cssPreview.textContent = `/* ${preset.name} Preset */\n${preset.css}\n\n/* HTML Usage */\n${preset.html}`;
+
+            showToast(`Selected "${preset.name}" preset!`);
+        }
+
+        function initializeButtonControls() {
+            // Set up event listeners for all button controls
+            const controls = [
+                'bg-type', 'bg-color', 'border-width', 'border-color', 
+                'padding', 'border-radius', 'font-size', 'font-weight', 
+                'text-color', 'shadow-blur', 'shadow-spread', 'hover-effect'
+            ];
+
+            controls.forEach(controlId => {
+                const element = document.getElementById(controlId);
+                if (element) {
+                    element.addEventListener('input', updateButtonStyle);
+                    element.addEventListener('change', updateButtonStyle);
+                }
             });
 
-            // Update preview
-            updateCustomGradient();
-            
-            // Update import preview
-            const importPreview = document.getElementById('import-preview');
-            importPreview.style.background = generateGradientCSS(selectedGradient);
-            importPreview.textContent = `Imported: ${selectedGradient.name}`;
-
-            showToast(`Imported "${selectedGradient.name}" successfully! 📥`);
+            // Initialize button style and CSS preview
+            updateButtonStyle();
         }
-
-        /* ============================================
-           COMPREHENSIVE BUTTON STYLE CONTROLS
-           ============================================ */
-        let currentButtonStyle = {
-            bgType: 'solid',
-            bgColor: '#667eea',
-            borderWidth: 0,
-            borderColor: '#667eea',
-            padding: 12,
-            borderRadius: 8,
-            fontSize: 14,
-            fontWeight: 600,
-            textColor: '#ffffff',
-            shadowBlur: 0,
-            shadowSpread: 0,
-            hoverEffect: 'none'
-        };
 
         function updateButtonStyle() {
-           const previewButton = document.getElementById('preview-button');
+            const previewButton = document.getElementById('preview-button');
             const cssPreview = document.getElementById('css-preview');
 
+            if (!previewButton || !cssPreview) return;
+
             // Get all current values
-            currentButtonStyle.bgType = document.getElementById('bg-type').value;
-            currentButtonStyle.bgColor = document.getElementById('bg-color').value;
-            currentButtonStyle.borderWidth = parseInt(document.getElementById('border-width').value);
-            currentButtonStyle.borderColor = document.getElementById('border-color').value;
-            currentButtonStyle.padding = parseInt(document.getElementById('padding').value);
-            currentButtonStyle.borderRadius = parseInt(document.getElementById('border-radius').value);
-            currentButtonStyle.fontSize = parseInt(document.getElementById('font-size').value);
-            currentButtonStyle.fontWeight = document.getElementById('font-weight').value;
-            currentButtonStyle.textColor = document.getElementById('text-color').value;
-            currentButtonStyle.shadowBlur = parseInt(document.getElementById('shadow-blur').value);
-            currentButtonStyle.shadowSpread = parseInt(document.getElementById('shadow-spread').value);
-            currentButtonStyle.hoverEffect = document.getElementById('hover-effect').value;
+            currentButtonStyle.bgType = document.getElementById('bg-type')?.value || 'solid';
+            currentButtonStyle.bgColor = document.getElementById('bg-color')?.value || '#667eea';
+            currentButtonStyle.borderWidth = parseInt(document.getElementById('border-width')?.value || 0);
+            currentButtonStyle.borderColor = document.getElementById('border-color')?.value || '#667eea';
+            currentButtonStyle.padding = parseInt(document.getElementById('padding')?.value || 12);
+            currentButtonStyle.borderRadius = parseInt(document.getElementById('border-radius')?.value || 8);
+            currentButtonStyle.fontSize = parseInt(document.getElementById('font-size')?.value || 14);
+            currentButtonStyle.fontWeight = document.getElementById('font-weight')?.value || 600;
+            currentButtonStyle.textColor = document.getElementById('text-color')?.value || '#ffffff';
+            currentButtonStyle.shadowBlur = parseInt(document.getElementById('shadow-blur')?.value || 0);
+            currentButtonStyle.shadowSpread = parseInt(document.getElementById('shadow-spread')?.value || 0);
+            currentButtonStyle.hoverEffect = document.getElementById('hover-effect')?.value || 'none';
 
             // Update slider values display
-            document.getElementById('border-width-value').textContent = `${currentButtonStyle.borderWidth}px`;
-            document.getElementById('padding-value').textContent = `${currentButtonStyle.padding}px`;
-            document.getElementById('border-radius-value').textContent = `${currentButtonStyle.borderRadius}px`;
-            document.getElementById('font-size-value').textContent = `${currentButtonStyle.fontSize}px`;
-            document.getElementById('shadow-blur-value').textContent = `${currentButtonStyle.shadowBlur}px`;
-            document.getElementById('shadow-spread-value').textContent = `${currentButtonStyle.shadowSpread}px`;
+            updateSliderDisplays();
 
             // Apply styles to preview button
             let buttonStyle = '';
@@ -3948,13 +3537,12 @@ background: ${generateGradientCSS(customGradient)};`;
                 buttonStyle += `background: ${currentButtonStyle.bgColor}; `;
             } else if (currentButtonStyle.bgType === 'transparent') {
                 buttonStyle += `background: transparent; `;
+            } else if (currentButtonStyle.bgType === 'gradient') {
+                buttonStyle += `background: linear-gradient(45deg, ${currentButtonStyle.bgColor}, #764ba2); `;
             }
-            // Gradient handled separately via gradient functions
 
-            // Border
-            buttonStyle += `border: ${currentButtonStyle.borderWidth}px solid ${currentButtonStyle.borderColor}; `;
-            
             // Other styles
+            buttonStyle += `border: ${currentButtonStyle.borderWidth}px solid ${currentButtonStyle.borderColor}; `;
             buttonStyle += `padding: ${currentButtonStyle.padding}px ${currentButtonStyle.padding * 2}px; `;
             buttonStyle += `border-radius: ${currentButtonStyle.borderRadius}px; `;
             buttonStyle += `font-size: ${currentButtonStyle.fontSize}px; `;
@@ -3977,9 +3565,26 @@ background: ${generateGradientCSS(customGradient)};`;
             updateCSSPreview();
         }
 
+        function updateSliderDisplays() {
+            const sliders = {
+                'border-width': 'px',
+                'padding': 'px',
+                'border-radius': 'px',
+                'font-size': 'px',
+                'shadow-blur': 'px',
+                'shadow-spread': 'px'
+            };
+
+            Object.entries(sliders).forEach(([sliderId, unit]) => {
+                const slider = document.getElementById(sliderId);
+                const valueDisplay = document.getElementById(`${sliderId}-value`);
+                if (slider && valueDisplay) {
+                    valueDisplay.textContent = `${slider.value}${unit}`;
+                }
+            });
+        }
+
         function updateHoverEffect() {
-            const previewButton = document.getElementById('preview-button');
-            
             // Remove existing hover style
             let existingHoverStyle = document.getElementById('button-hover-style');
             if (existingHoverStyle) {
@@ -4024,7 +3629,9 @@ background: ${generateGradientCSS(customGradient)};`;
 
         function updateCSSPreview() {
             const cssPreview = document.getElementById('css-preview');
-            const buttonText = document.getElementById('button-text').value;
+            const buttonText = document.getElementById('button-text')?.value || 'Sample Button';
+            
+            if (!cssPreview) return;
             
             let css = `/* Custom Button CSS */
 .custom-button {
@@ -4039,10 +3646,8 @@ background: ${generateGradientCSS(customGradient)};`;
                 css += `background: transparent;\n    `;
             }
 
-            // Border
-            css += `border: ${currentButtonStyle.borderWidth}px solid ${currentButtonStyle.borderColor};\n    `;
-            
             // Other properties
+            css += `border: ${currentButtonStyle.borderWidth}px solid ${currentButtonStyle.borderColor};\n    `;
             css += `color: ${currentButtonStyle.textColor};\n    `;
             css += `padding: ${currentButtonStyle.padding}px ${currentButtonStyle.padding * 2}px;\n    `;
             css += `border-radius: ${currentButtonStyle.borderRadius}px;\n    `;
@@ -4092,9 +3697,35 @@ background: ${generateGradientCSS(customGradient)};`;
             css += `}
 
 /* HTML Usage */
-<button class="custom-button">${buttonText || 'Sample Button'}</button>`;
+<button class="custom-button">${buttonText}</button>`;
 
             cssPreview.textContent = css;
+        }
+
+        function updateButtonText() {
+            const text = document.getElementById('button-text')?.value || 'Sample Button';
+            const previewButton = document.getElementById('preview-button');
+            if (previewButton) {
+                previewButton.textContent = text;
+            }
+            updateCSSPreview(); // Update CSS preview with new text
+        }
+
+        function copyButtonCSS() {
+            const cssPreview = document.getElementById('css-preview');
+            if (!cssPreview) return;
+            
+            const css = cssPreview.textContent;
+            
+            navigator.clipboard.writeText(css).then(() => {
+                showToast('Button CSS copied!');
+                const copyButton = document.querySelector('.btn-success');
+                if (copyButton) {
+                    createSparkles(copyButton);
+                }
+            }).catch(() => {
+                showToast('Copy failed. Try again!');
+            });
         }
 
         function copyButtonCSSFromPreview() {
@@ -4103,155 +3734,73 @@ background: ${generateGradientCSS(customGradient)};`;
             
             navigator.clipboard.writeText(css).then(() => {
                 showToast('CSS copied from preview! 📋');
-                createSparkles(event.target);
+                const copyButton = document.querySelector('.btn-success');
+                if (copyButton) {
+                    createSparkles(copyButton);
+                }
             }).catch(() => {
                 showToast('Copy failed. Try again! ❌');
             });
         }
 
-        function updateButtonText() {
-            const text = document.getElementById('button-text').value;
+        function resetButton() {
+            // Reset form values
+            const controls = {
+                'button-text': 'Sample Button',
+                'bg-type': 'solid',
+                'bg-color': '#667eea',
+                'border-width': '0',
+                'border-color': '#667eea',
+                'padding': '12',
+                'border-radius': '8',
+                'font-size': '14',
+                'font-weight': '600',
+                'text-color': '#ffffff',
+                'shadow-blur': '0',
+                'shadow-spread': '0',
+                'hover-effect': 'none'
+            };
+
+            Object.entries(controls).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.value = value;
+            });
+            
+            // Reset button style object
+            currentButtonStyle = {
+                bgType: 'solid',
+                bgColor: '#667eea',
+                borderWidth: 0,
+                borderColor: '#667eea',
+                padding: 12,
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                textColor: '#ffffff',
+                shadowBlur: 0,
+                shadowSpread: 0,
+                hoverEffect: 'none'
+            };
+            
             const previewButton = document.getElementById('preview-button');
-            previewButton.textContent = text || 'Sample Button';
-            updateCSSPreview(); // Update CSS preview with new text
-        }
-
-       /* ============================================
-           PALETTE RENDERING & FUNCTIONALITY
-           ============================================ */
-        function renderPalettes() {
-            const grid = document.getElementById('palettes-grid');
-            grid.innerHTML = '';
-
-            colorPalettes.forEach((palette, index) => {
-                const card = document.createElement('div');
-                card.className = 'palette-card animate__animated animate__fadeInUp';
-                card.style.animationDelay = `${index * 0.1}s`;
-                
-                const name = document.createElement('div');
-                name.className = 'palette-name';
-                name.textContent = palette.name;
-                
-                const colors = document.createElement('div');
-                colors.className = 'palette-colors';
-                
-                palette.colors.forEach(color => {
-                    const colorDiv = document.createElement('div');
-                    colorDiv.className = 'palette-color';
-                    colorDiv.style.background = color;
-                    colorDiv.onclick = () => copyColor(color);
-                    
-                    const code = document.createElement('div');
-                    code.className = 'palette-color-code';
-                    code.textContent = color;
-                    
-                    colorDiv.appendChild(code);
-                    colors.appendChild(colorDiv);
-                });
-                
-                card.appendChild(name);
-                card.appendChild(colors);
-                grid.appendChild(card);
-            });
-        }
-
-        function copyColor(color) {
-            navigator.clipboard.writeText(color).then(() => {
-                showToast(`Copied ${color} to clipboard! 🎨`);
-                createSparkles(event.target);
-            }).catch(() => {
-                showToast('Copy failed. Try again! ❌');
-            });
-        }
-
-        function shufflePalettes() {
-            const shuffled = [...colorPalettes].sort(() => Math.random() - 0.5);
-            colorPalettes.length = 0;
-            colorPalettes.push(...shuffled);
-            renderPalettes();
-            showToast('Palettes shuffled! 🎲');
-        }
-
-       /* ============================================
-           BUTTON BUILDER FUNCTIONALITY
-           ============================================ */
-        function renderButtonPresets() {
-            const grid = document.getElementById('preset-buttons-grid');
-            grid.innerHTML = '';
-
-            buttonPresets.forEach((preset, index) => {
-                const card = document.createElement('div');
-                card.className = 'preset-button-card animate__animated animate__fadeInUp';
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.onclick = () => selectButtonPreset(preset, card);
-                
-                const title = document.createElement('h4');
-                title.textContent = preset.name;
-                title.style.marginBottom = '15px';
-                title.style.color = 'var(--text-primary)';
-                
-                // Create a preview of the button
-                const preview = document.createElement('div');
-                preview.innerHTML = preset.html;
-                preview.style.marginBottom = '10px';
-                
-                // Apply the CSS styles inline for preview
-                const style = document.createElement('style');
-                style.textContent = preset.css;
-                card.appendChild(style);
-                
-                card.appendChild(title);
-                card.appendChild(preview);
-                grid.appendChild(card);
-            });
-        }
-
-        function selectButtonPreset(preset, cardElement) {
-            // Remove previous selection
+            if (previewButton) {
+                previewButton.className = 'btn btn-primary';
+                previewButton.textContent = 'Sample Button';
+                previewButton.style.cssText = '';
+            }
+            
+            // Remove custom styles
+            const customStyles = document.querySelectorAll('#preset-style, #button-hover-style');
+            customStyles.forEach(style => style.remove());
+            
+            selectedButtonPreset = null;
             document.querySelectorAll('.preset-button-card').forEach(card => {
                 card.classList.remove('selected');
             });
             
-            // Add selection
-            cardElement.classList.add('selected', 'animate__animated', 'animate__pulse');
-            selectedButtonPreset = preset;
-            
-            // Update button preview
-            updateButtonPreview(preset);
-            showToast(`Selected "${preset.name}" button! 🔘`);
-            
-            // Clean up animation
-            setTimeout(() => {
-                cardElement.classList.remove('animate__animated', 'animate__pulse');
-            }, 1000);
-        }
-
-        function updateButtonPreview(preset) {
-            const preview = document.getElementById('button-preview');
-            const previewButton = document.getElementById('preview-button');
-            
-            // Apply the preset styles
-            previewButton.className = 'btn btn-primary';
-            previewButton.textContent = document.getElementById('button-text').value;
-            
-            // Create and apply custom styles
-            let existingStyle = document.getElementById('button-preview-style');
-            if (existingStyle) {
-                existingStyle.remove();
-            }
-            
-            const style = document.createElement('style');
-            style.id = 'button-preview-style';
-            style.textContent = preset.css.replace(preset.html.match(/class="([^"]+)"/)[1], 'preview-button');
-            document.head.appendChild(style);
-            
-            previewButton.className = 'preview-button';
-        }
-
-        function updateButtonText() {
-            const text = document.getElementById('button-text').value;
-            const previewButton = document.getElementById('preview-button');
-            previewButton.textContent = text || 'Sample Button';
+            // Update displays
+            updateButtonStyle();
+            showToast('Button reset');
         }
 
         function applySelectedGradient() {
@@ -4261,39 +3810,45 @@ background: ${generateGradientCSS(customGradient)};`;
             }
             
             const previewButton = document.getElementById('preview-button');
-            const gradientCSS = generateGradientCSS(selectedGradient);
-            
-            previewButton.style.background = gradientCSS;
-            previewButton.style.border = 'none';
-            previewButton.style.color = 'white';
-            
-            // Update bg type to gradient
-            document.getElementById('bg-type').value = 'gradient';
-            currentButtonStyle.bgType = 'gradient';
-            
-            updateCSSPreview();
-            showToast(`Applied "${selectedGradient.name}" gradient to button`);
+            if (previewButton) {
+                const gradientCSS = generateGradientCSS(selectedGradient);
+                
+                previewButton.style.background = gradientCSS;
+                previewButton.style.border = 'none';
+                previewButton.style.color = 'white';
+                
+                // Update bg type to gradient
+                const bgTypeSelect = document.getElementById('bg-type');
+                if (bgTypeSelect) bgTypeSelect.value = 'gradient';
+                currentButtonStyle.bgType = 'gradient';
+                
+                updateCSSPreview();
+                showToast(`Applied "${selectedGradient.name}" gradient to button`);
+            }
         }
 
         function applyCustomGradient() {
             const previewButton = document.getElementById('preview-button');
-            const gradientCSS = generateGradientCSS(customGradient);
-            
-            previewButton.style.background = gradientCSS;
-            previewButton.style.border = 'none';
-            previewButton.style.color = 'white';
-            
-            // Update bg type to gradient
-            document.getElementById('bg-type').value = 'gradient';
-            currentButtonStyle.bgType = 'gradient';
-            
-            updateCSSPreview();
-            showToast('Applied custom gradient to button');
+            if (previewButton) {
+                const gradientCSS = generateGradientCSS(customGradient);
+                
+                previewButton.style.background = gradientCSS;
+                previewButton.style.border = 'none';
+                previewButton.style.color = 'white';
+                
+                // Update bg type to gradient
+                const bgTypeSelect = document.getElementById('bg-type');
+                if (bgTypeSelect) bgTypeSelect.value = 'gradient';
+                currentButtonStyle.bgType = 'gradient';
+                
+                updateCSSPreview();
+                showToast('Applied custom gradient to button');
+            }
         }
 
         function importButtonCode() {
-           const code = document.getElementById('import-code').value;
-            if (!code.trim()) return;
+            const code = document.getElementById('import-code')?.value;
+            if (!code || !code.trim()) return;
             
             try {
                 // Extract HTML and CSS from the imported code
@@ -4302,8 +3857,11 @@ background: ${generateGradientCSS(customGradient)};`;
                 
                 if (htmlMatch) {
                     const buttonText = htmlMatch[1];
-                    document.getElementById('button-text').value = buttonText;
-                    updateButtonText();
+                    const buttonTextInput = document.getElementById('button-text');
+                    if (buttonTextInput) {
+                        buttonTextInput.value = buttonText;
+                        updateButtonText();
+                    }
                 }
                 
                 if (cssMatch) {
@@ -4327,74 +3885,10 @@ background: ${generateGradientCSS(customGradient)};`;
             }
         }
 
-        function copyButtonCSS() {
-            const buttonText = document.getElementById('button-text').value;
-            const css = document.getElementById('css-preview').textContent;
-            
-            navigator.clipboard.writeText(css).then(() => {
-                showToast('Button CSS & HTML copied');
-                createSparkles(event.target);
-            }).catch(() => {
-                showToast('Copy failed. Try again');
-            });
-        }
-
-        function resetButton() {
-            // Reset form values
-            document.getElementById('button-text').value = 'Sample Button';
-            document.getElementById('import-code').value = '';
-            document.getElementById('bg-type').value = 'solid';
-            document.getElementById('bg-color').value = '#667eea';
-            document.getElementById('border-width').value = '0';
-            document.getElementById('border-color').value = '#667eea';
-            document.getElementById('padding').value = '12';
-            document.getElementById('border-radius').value = '8';
-            document.getElementById('font-size').value = '14';
-            document.getElementById('font-weight').value = '600';
-            document.getElementById('text-color').value = '#ffffff';
-            document.getElementById('shadow-blur').value = '0';
-            document.getElementById('shadow-spread').value = '0';
-            document.getElementById('hover-effect').value = 'none';
-            
-            // Reset button style object
-            currentButtonStyle = {
-                bgType: 'solid',
-                bgColor: '#667eea',
-                borderWidth: 0,
-                borderColor: '#667eea',
-                padding: 12,
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 600,
-                textColor: '#ffffff',
-                shadowBlur: 0,
-                shadowSpread: 0,
-                hoverEffect: 'none'
-            };
-            
-            const previewButton = document.getElementById('preview-button');
-            previewButton.className = 'btn btn-primary';
-            previewButton.textContent = 'Sample Button';
-            previewButton.style = '';
-            
-            // Remove custom styles
-            const customStyles = document.querySelectorAll('#button-preview-style, #imported-button-style, #button-hover-style');
-            customStyles.forEach(style => style.remove());
-            
-            selectedButtonPreset = null;
-            document.querySelectorAll('.preset-button-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Update displays
-            updateButtonStyle();
-            showToast('Button reset');
-        }
-
         /* ============================================
            UTILITY FUNCTIONS
            ============================================ */
-       function resetAll() {
+        function resetAll() {
             // Reset gradients
             selectedGradient = null;
             customGradient = {
@@ -4405,110 +3899,63 @@ background: ${generateGradientCSS(customGradient)};`;
             
             // Reset selections
             document.querySelectorAll('.gradient-card').forEach(card => {
-                card.classList.remove('selected', 'animated-gradient', 'animated-wave', 'animated-pulse', 'animated-rotate', 'animated-zoom');
+                card.classList.remove('selected');
             });
             
             // Reset custom gradient controls
-            document.querySelector('input[value="linear"]').checked = true;
-            document.getElementById('angle-slider').value = 45;
-            document.getElementById('angle-value').textContent = '45°';
-            document.getElementById('animation-type').value = 'none';
+            const linearRadio = document.querySelector('input[value="linear"]');
+            if (linearRadio) linearRadio.checked = true;
+            
+            const angleSlider = document.getElementById('angle-slider');
+            const angleValue = document.getElementById('angle-value');
+            const animationType = document.getElementById('animation-type');
+            const animationSpeed = document.getElementById('animation-speed');
+            const animationDirection = document.getElementById('animation-direction');
+            
+            if (angleSlider) angleSlider.value = 45;
+            if (angleValue) angleValue.textContent = '45°';
+            if (animationType) animationType.value = 'none';
+            if (animationSpeed) animationSpeed.value = 4;
+            if (animationDirection) animationDirection.value = 'normal';
             
             // Reset color stops
             const colorStops = document.getElementById('color-stops');
-           colorStops.innerHTML = `
-                <div class="color-stop">
-                    <div class="color-input-wrapper">
-                        <div class="color-preview" style="background: #667eea" onclick="this.nextElementSibling.click()"></div>
-                        <input type="color" class="color-input" value="#667eea" onchange="updateColorStop(this)">
-                        <input type="text" class="color-hex" value="#667eea" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
+            if (colorStops) {
+                colorStops.innerHTML = `
+                    <div class="color-stop">
+                        <div class="color-input-wrapper">
+                            <div class="color-preview" style="background: #667eea" onclick="this.nextElementSibling.click()"></div>
+                            <input type="color" class="color-input" value="#667eea" onchange="updateColorStop(this)">
+                            <input type="text" class="color-hex" value="#667eea" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
+                        </div>
                     </div>
-                </div>
-                <div class="color-stop">
-                    <div class="color-input-wrapper">
-                        <div class="color-preview" style="background: #764ba2" onclick="this.nextElementSibling.click()"></div>
-                        <input type="color" class="color-input" value="#764ba2" onchange="updateColorStop(this)">
-                        <input type="text" class="color-hex" value="#764ba2" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
+                    <div class="color-stop">
+                        <div class="color-input-wrapper">
+                            <div class="color-preview" style="background: #764ba2" onclick="this.nextElementSibling.click()"></div>
+                            <input type="color" class="color-input" value="#764ba2" onchange="updateColorStop(this)">
+                            <input type="text" class="color-hex" value="#764ba2" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
             
             // Reset filter
             currentFilter = 'all';
             document.querySelectorAll('.filter-tag').forEach(tag => {
                 tag.classList.remove('active');
             });
-            document.querySelector('.filter-tag').classList.add('active');
+            const firstFilterTag = document.querySelector('.filter-tag');
+            if (firstFilterTag) firstFilterTag.classList.add('active');
             
             // Reset button builder
             resetButton();
             
             // Reset color wheel
-            document.getElementById('color-wheel').value = '#667eea';
-            updateColorWheel();
-            
-            updateCustomGradient();
-            renderGradients();
-            
-            showToast('All settings reset! 🔄');
-        }
-
-        function resetAll() {
-            // Reset gradients
-           selectedGradient = null;
-            customGradient = {
-                type: 'linear',
-                angle: 45,
-                colors: ['#667eea', '#764ba2']
-            };
-            
-            // Reset selections
-            document.querySelectorAll('.gradient-card').forEach(card => {
-                card.classList.remove('selected', 'animated-shift', 'animated-wave', 'animated-pulse', 'animated-rotate', 'animated-zoom');
-            });
-            
-            // Reset custom gradient controls
-            document.querySelector('input[value="linear"]').checked = true;
-            document.getElementById('angle-slider').value = 45;
-            document.getElementById('angle-value').textContent = '45°';
-            document.getElementById('animation-type').value = 'none';
-            document.getElementById('animation-speed').value = 4;
-            document.getElementById('animation-direction').value = 'normal';
-            
-            // Reset color stops
-            const colorStops = document.getElementById('color-stops');
-           colorStops.innerHTML = `
-                <div class="color-stop">
-                    <div class="color-input-wrapper">
-                        <div class="color-preview" style="background: #667eea" onclick="this.nextElementSibling.click()"></div>
-                        <input type="color" class="color-input" value="#667eea" onchange="updateColorStop(this)">
-                        <input type="text" class="color-hex" value="#667eea" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
-                    </div>
-                </div>
-                <div class="color-stop">
-                    <div class="color-input-wrapper">
-                        <div class="color-preview" style="background: #764ba2" onclick="this.nextElementSibling.click()"></div>
-                        <input type="color" class="color-input" value="#764ba2" onchange="updateColorStop(this)">
-                        <input type="text" class="color-hex" value="#764ba2" onchange="updateColorStopHex(this)" placeholder="Enter hex code">
-                    </div>
-                </div>
-            `;
-            
-            // Reset filter
-            currentFilter = 'all';
-            document.querySelectorAll('.filter-tag').forEach(tag => {
-                tag.classList.remove('active');
-            });
-            document.querySelector('.filter-tag').classList.add('active');
-            
-            // Reset button builder if elements exist
-            if (typeof resetButton === 'function') {
-                resetButton();
+            const colorWheel = document.getElementById('color-wheel');
+            if (colorWheel) {
+                colorWheel.value = '#667eea';
+                updateColorWheel();
             }
-            
-            // Reset color wheel
-            document.getElementById('color-wheel').value = '#667eea';
-            updateColorWheel();
             
             // Reset animation values
             currentAnimationSpeed = 4;
@@ -4527,60 +3974,34 @@ background: ${generateGradientCSS(customGradient)};`;
             showToast('All settings reset');
         }
 
-        // Initialize everything properly without theme functionality
-        function initializeApp() {
-            try {
-                renderGradients();
-                renderPalettes();
-                renderButtonPresets();
-                updateCustomGradient();
-                updateColorWheel();
-                initializeButtonControls();
-                console.log('Enhanced Gradient Studio Pro initialized successfully');
-            } catch (error) {
-                console.error('Initialization error:', error);
-                showToast('Application initialization error', 'error');
+        function createSparkles(element) {
+            if (!element) return;
+            
+            // Create sparkle effect
+            for (let i = 0; i < 6; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+                
+                element.style.position = 'relative';
+                element.appendChild(sparkle);
+                
+                // Remove sparkle after animation
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.parentNode.removeChild(sparkle);
+                    }
+                }, 1500);
             }
         }
-
-        // Update DOMContentLoaded to use the enhanced initialization
-        document.addEventListener('DOMContentLoaded', initializeApp);
-
-        // Add keyboard shortcuts enhancement (removed theme toggle shortcut)
-        document.addEventListener('keydown', (e) => {
-            // Ctrl+R to reset (prevent page refresh)
-            if (e.ctrlKey && e.key === 'r') {
-                e.preventDefault();
-                resetAll();
-            }
-            
-            // Ctrl+C to copy when gradient is selected
-            if (e.ctrlKey && e.key === 'c' && selectedGradient) {
-                e.preventDefault();
-                copyGradientCSS(selectedGradient);
-            }
-            
-            // Tab navigation with arrow keys
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                const tabs = document.querySelectorAll('.nav-tab');
-                const activeTab = document.querySelector('.nav-tab.active');
-                const currentIndex = Array.from(tabs).indexOf(activeTab);
-                
-                let newIndex;
-                if (e.key === 'ArrowLeft') {
-                    newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-                } else {
-                    newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-                }
-                
-                tabs[newIndex].click();
-                e.preventDefault();
-            }
-        });
 
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
+            
+            if (!toast || !toastMessage) return;
             
             toastMessage.textContent = message;
             
@@ -4598,93 +4019,49 @@ background: ${generateGradientCSS(customGradient)};`;
             }, 3000);
         }
 
-        // Update the selectedGradient tracking to work with import feature
-       function selectGradient(gradient, cardElement) {
-            // Remove previous selection
-            document.querySelectorAll('.gradient-card').forEach(card => {
-                card.classList.remove('selected');
-            });
+        function createSparkles(element) {
+            if (!element) return;
             
-            // Add selection
-            cardElement.classList.add('selected');
-            selectedGradient = gradient;
-            
-            // Update import preview if on Build Your Own tab
-            const importPreview = document.getElementById('import-preview');
-            if (importPreview) {
-                importPreview.style.background = generateGradientCSS(gradient);
-                importPreview.textContent = `Selected: ${gradient.name}`;
-            }
-            
-            createSparkles(cardElement);
-            showToast(`Selected "${gradient.name}"`);
-        }
-
-        // Improved validation for hex colors
-        function validateHexColor(hex) {
-            return /^#[0-9A-F]{6}$/i.test(hex);
-        }
-
-        // Enhanced color stop hex validation
-        function updateColorStopHexValidated(input) {
-            const value = input.value.trim();
-            
-            if (!value.startsWith('#')) {
-                input.value = '#' + value;
-            }
-            
-            if (validateHexColor(input.value)) {
-                updateColorStopHex(input);
-            } else {
-                input.style.borderColor = 'var(--danger)';
-                showToast('Invalid hex color format! Use #RRGGBB', 'error');
-                
+            for (let i = 0; i < 6; i++) {
                 setTimeout(() => {
-                    input.style.borderColor = 'var(--border)';
-                }, 2000);
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    
+                    if (element.offsetParent) {
+                        element.offsetParent.appendChild(sparkle);
+                        
+                        setTimeout(() => {
+                            if (sparkle.parentNode) {
+                                sparkle.parentNode.removeChild(sparkle);
+                            }
+                        }, 1500);
+                    }
+                }, i * 100);
             }
         }
-
-        // Enhanced accessibility
-       function enhanceAccessibility() {
-            // Add ARIA labels to gradient cards
-            document.querySelectorAll('.gradient-card').forEach((card, index) => {
-                card.setAttribute('role', 'button');
-                card.setAttribute('tabindex', '0');
-                card.setAttribute('aria-label', `Gradient ${index + 1}`);
-                
-                // Add keyboard navigation
-                card.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        card.click();
-                    }
-                });
-            });
-            
-            // Add ARIA labels to palette colors
-            document.querySelectorAll('.palette-color').forEach((color, index) => {
-                color.setAttribute('role', 'button');
-                color.setAttribute('tabindex', '0');
-                color.setAttribute('aria-label', `Color ${color.style.background}`);
-                
-                color.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        color.click();
-                    }
-                });
-            });
-        }
-
-        // Call accessibility enhancements after rendering
-        setTimeout(enhanceAccessibility, 1000);
 
         // Global error handler
         window.addEventListener('error', (e) => {
             console.error('Application error:', e.error);
             showToast('An error occurred. Please try again', 'error');
         });
-   </script>
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+R to reset (prevent page refresh)
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                resetAll();
+            }
+            
+            // Ctrl+C to copy when gradient is selected
+            if (e.ctrlKey && e.key === 'c' && selectedGradient) {
+                e.preventDefault();
+                copyGradientCSS(selectedGradient);
+            }
+        });
+    </script>
 </body>
 </html>
